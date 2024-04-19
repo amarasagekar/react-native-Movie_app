@@ -11,14 +11,115 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
-    return <Tab.Navigator>
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Search" component={SearchScreen} />
-        <Tab.Screen name="Ticket" component={TicketScreen} />
-        <Tab.Screen name="user" component={UserAccountScreen} />
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        tabBarHideOnKeyboard: true,
+        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: COLORS.Black,
+          borderWidth: 0,
+          height: SPACING.space_10 * 10,
+        },
+      }}>
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarShowLabel: false,
+          tabBarIcon: ({focused, color, size}) => {
+            return (
+              <View
+                style={[
+                  style.activeTabBackground,
+                  focused ? {backgroundColor: COLORS.Orange} : {},
+                ]}>
+                <CustomIcon
+                  name="video"
+                  color={COLORS.White}
+                  size={FONTSIZE.size_30}
+                />
+              </View>
+            );
+          },
+        }}
+      />
+      <Tab.Screen
+        name="Search"
+        component={SearchScreen}
+        options={{
+          tabBarShowLabel: false,
+          tabBarIcon: ({focused, color, size}) => {
+            return (
+              <View
+                style={[
+                  style.activeTabBackground,
+                  focused ? {backgroundColor: COLORS.Orange} : {},
+                ]}>
+                <CustomIcon
+                  name="search"
+                  color={COLORS.White}
+                  size={FONTSIZE.size_30}
+                />
+              </View>
+            );
+          },
+        }}
+      />
+      <Tab.Screen
+        name="Ticket"
+        component={TicketScreen}
+        options={{
+          tabBarShowLabel: false,
+          tabBarIcon: ({focused, color, size}) => {
+            return (
+              <View
+                style={[
+                  style.activeTabBackground,
+                  focused ? {backgroundColor: COLORS.Orange} : {},
+                ]}>
+                <CustomIcon
+                  name="ticket"
+                  color={COLORS.White}
+                  size={FONTSIZE.size_30}
+                />
+              </View>
+            );
+          },
+        }}
+      />
+      <Tab.Screen
+        name="user"
+        component={UserAccountScreen}
+        options={{
+          tabBarShowLabel: false,
+          tabBarIcon: ({focused, color, size}) => {
+            return (
+              <View
+                style={[
+                  style.activeTabBackground,
+                  focused ? {backgroundColor: COLORS.Orange} : {},
+                ]}>
+                <CustomIcon
+                  name="user"
+                  color={COLORS.White}
+                  size={FONTSIZE.size_30}
+                />
+              </View>
+            );
+          },
+        }}
+      />
     </Tab.Navigator>
+  );
 };
 
-const style = StyleSheet.create({});
+const style = StyleSheet.create({
+  activeTabBackground: {
+    backgroundColor: COLORS.Black,
+    padding: SPACING.space_18,
+    borderRadius: SPACING.space_18 * 10,
+  },
+});
 
 export default TabNavigator;

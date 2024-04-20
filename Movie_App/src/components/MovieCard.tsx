@@ -8,7 +8,7 @@ import {
   SPACING,
 } from '../theme/theme';
 
-const SubMovieCard = (props: any) => {
+const MovieCard = (props: any) => {
   return (
     <TouchableOpacity onPress={() => {}}>
       <View
@@ -55,4 +55,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SubMovieCard;
+export default MovieCard;

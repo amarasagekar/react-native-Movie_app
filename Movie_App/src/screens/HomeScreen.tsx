@@ -20,6 +20,8 @@ import {
 
 import InputHeader from '../components/InputHeader';
 import CategoryHeader from '../components/CategoryHeader';
+import SubMovieCard from '../components/SubMovieCard';
+import MovieCard from '../components/MovieCard';
 
 const {width, height} = Dimensions.get('window');
 
@@ -109,13 +111,64 @@ const HomeScreen = ({navigation}: any) => {
           <ActivityIndicator size={'large'} color={COLORS.Orange} />
         </View>
         <CategoryHeader title={'Now Playing'} />
+        <FlatList
+          data={nowPlayingMoviesList}
+          keyExtractor={(item: any) => item.id}
+          horizontal
+          contentContainerStyle={styles.containerGap36}
+          renderItem={({item, index}) => (
+            <MovieCard
+              shouldMarginatedAtEnd={true}
+              cardFunction={() => {
+                navigation.push('MovieDetails', {movieid: item.id});
+              }}
+              cardWidth={width / 3}
+              title={item.original_title}
+              isFirst={index == 0 ? true : false}
+              isLast={index == upcomingMovieList?.length - 1 ? true : false}
+              imagePath={baseImagePath('w342', item.poster_path)}
+            />
+          )}
+        />
         <CategoryHeader title={'Popular'} />
+        <FlatList
+          data={popularMoviewList}
+          keyExtractor={(item: any) => item.id}
+          horizontal
+          contentContainerStyle={styles.containerGap36}
+          renderItem={({item, index}) => (
+            <SubMovieCard
+              shouldMarginatedAtEnd={true}
+              cardFunction={() => {
+                navigation.push('MovieDetails', {movieid: item.id});
+              }}
+              cardWidth={width / 3}
+              title={item.original_title}
+              isFirst={index == 0 ? true : false}
+              isLast={index == upcomingMovieList?.length - 1 ? true : false}
+              imagePath={baseImagePath('w342', item.poster_path)}
+            />
+          )}
+        />
         <CategoryHeader title={'Upcoming'} />
         <FlatList
           data={upcomingMovieList}
           keyExtractor={(item: any) => item.id}
           horizontal
           contentContainerStyle={styles.containerGap36}
+          renderItem={({item, index}) => (
+            <SubMovieCard
+              shouldMarginatedAtEnd={true}
+              cardFunction={() => {
+                navigation.push('MovieDetails', {movieid: item.id});
+              }}
+              cardWidth={width / 3}
+              title={item.original_title}
+              isFirst={index == 0 ? true : false}
+              isLast={index == upcomingMovieList?.length - 1 ? true : false}
+              imagePath={baseImagePath('w342', item.poster_path)}
+            />
+          )}
         />
       </ScrollView>
     );

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Text,
   View,
@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   ScrollView,
   StatusBar,
+  FlatList,
 } from 'react-native';
 import {COLORS, SPACING} from '../theme/theme';
 import {
@@ -18,16 +19,69 @@ import {
 } from '../api/apicalls';
 
 import InputHeader from '../components/InputHeader';
+import CategoryHeader from '../components/CategoryHeader';
 
 const {width, height} = Dimensions.get('window');
+
+const getNowPlayingMoviesList = async () => {
+  try {
+    let reaponse = await fetch(nowPlayingMovies);
+    let json = await reaponse.json();
+    return json;
+  } catch (error) {
+    console.error(
+      'Something went wrong in getNowPlayingMoviesList function',
+      error,
+    );
+  }
+};
+
+const getPopularMoviesList = async () => {
+  try {
+    let reaponse = await fetch(popularMovies);
+    let json = await reaponse.json();
+    return json;
+  } catch (error) {
+    console.error(
+      'Something went wrong in getPopularMoviesList function',
+      error,
+    );
+  }
+};
+
+const getUpcomingMoviesList = async () => {
+  try {
+    let reaponse = await fetch(upcomingMovies);
+    let json = await reaponse.json();
+    return json;
+  } catch (error) {
+    console.error(
+      'Something went wrong in getUpcomingMoviesList function',
+      error,
+    );
+  }
+};
 
 const HomeScreen = ({navigation}: any) => {
   const [nowPlayingMoviesList, setNowPlayingMoviesList] =
     useState<any>(undefined);
 
   const [popularMoviewList, setPopularMoviewList] = useState<any>(undefined);
-
   const [upcomingMovieList, setUpcomingMovieList] = useState<any>(undefined);
+
+  useEffect(() => {
+    (async () => {
+      let tempNowPlaying = await getNowPlayingMoviesList();
+      setNowPlayingMoviesList(tempNowPlaying.results);
+
+      let tempUpcoming = await getUpcomingMoviesList();
+      setUpcomingMovieList(tempUpcoming.results);
+
+      let tempPopular = await getPopularMoviesList();
+      setPopularMoviewList(tempPopular.results);
+    })();
+  }, []);
+
   const searchMoviesFunction = () => {
     navigation.navigate('Search');
   };
@@ -54,6 +108,15 @@ const HomeScreen = ({navigation}: any) => {
         <View style={styles.loadinContainer}>
           <ActivityIndicator size={'large'} color={COLORS.Orange} />
         </View>
+        <CategoryHeader title={'Now Playing'} />
+        <CategoryHeader title={'Popular'} />
+        <CategoryHeader title={'Upcoming'} />
+        <FlatList
+          data={upcomingMovieList}
+          keyExtractor={(item: any) => item.id}
+          horizontal
+          contentContainerStyle={styles.containerGap36}
+        />
       </ScrollView>
     );
   }
@@ -87,6 +150,9 @@ const styles = StyleSheet.create({
   InputHeaderContainer: {
     marginHorizontal: SPACING.space_36,
     marginTop: SPACING.space_28,
+  },
+  containerGap36: {
+    gap: SPACING.space_36,
   },
 });
 

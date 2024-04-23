@@ -1,7 +1,10 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 
-const MovieDetailsScreen = () => {
+const MovieDetailsScreen = ({navigation, route}: any) => {
+  const [movieData, setMovieData] = useState(undefined);
+  const [movieCastData, setMovieCastData] = useState<any>(undefined);
+
   return (
     <View style={styles.container}>
       <Text>MovieDetailsScreen</Text>

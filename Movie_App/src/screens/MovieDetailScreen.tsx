@@ -1,6 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View, StyleSheet, ScrollView} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  ScrollView,
+  ActivityIndicator,
+} from 'react-native';
 import {movieDetails, movieCastDetails} from '../api/apicalls';
+import {COLORS} from '../theme/theme';
 
 const getMovieDetails = async (movieid: number) => {
   try {
@@ -50,6 +57,9 @@ const MovieDetailsScreen = ({navigation, route}: any) => {
     return (
       <ScrollView>
         <View></View>
+        <View style={styles.loadinContainer}>
+          <ActivityIndicator size={'large'} color={COLORS.Orange} />
+        </View>
       </ScrollView>
     );
   }
@@ -62,6 +72,11 @@ const MovieDetailsScreen = ({navigation, route}: any) => {
 
 const styles = StyleSheet.create({
   container: {},
+  loadinContainer: {
+    flex: 1,
+    alignSelf: 'center',
+    justifyContent: 'center',
+  },
 });
 
 export default MovieDetailsScreen;

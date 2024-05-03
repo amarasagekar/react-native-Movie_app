@@ -155,6 +155,7 @@ const HomeScreen = ({navigation}: any) => {
           data={popularMoviewList}
           keyExtractor={(item: any) => item.id}
           bounces={false}
+          showsHorizontalScrollIndicator={false}
           horizontal
           contentContainerStyle={styles.containerGap36}
           renderItem={({item, index}) => (
@@ -176,6 +177,7 @@ const HomeScreen = ({navigation}: any) => {
           data={upcomingMovieList}
           keyExtractor={(item: any) => item.id}
           bounces={false}
+          showsHorizontalScrollIndicator={false}
           horizontal
           contentContainerStyle={styles.containerGap36}
           renderItem={({item, index}) => (

@@ -55,7 +55,12 @@ const MovieDetailsScreen = ({navigation, route}: any) => {
     movieCastData == null
   ) {
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={styles.scrollViewContainer}
+        bounces={false}
+        showsVerticalScrollIndicator={false}
+        >
         <View></View>
         <View style={styles.loadinContainer}>
           <ActivityIndicator size={'large'} color={COLORS.Orange} />
@@ -81,6 +86,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
   },
+  scrollViewContainer: {},
 });
 
 export default MovieDetailsScreen;

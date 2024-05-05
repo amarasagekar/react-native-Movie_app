@@ -7,7 +7,8 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import {movieDetails, movieCastDetails} from '../api/apicalls';
-import {COLORS} from '../theme/theme';
+import {COLORS, SPACING} from '../theme/theme';
+import AppHeader from '../components/AppHeader';
 
 const getMovieDetails = async (movieid: number) => {
   try {
@@ -59,9 +60,14 @@ const MovieDetailsScreen = ({navigation, route}: any) => {
         style={styles.container}
         contentContainerStyle={styles.scrollViewContainer}
         bounces={false}
-        showsVerticalScrollIndicator={false}
-        >
-        <View></View>
+        showsVerticalScrollIndicator={false}>
+        <View style={styles.appHeaderContainer}>
+          <AppHeader
+            name="close"
+            header={''}
+            action={() => navigation.goBack()}
+          />
+        </View>
         <View style={styles.loadinContainer}>
           <ActivityIndicator size={'large'} color={COLORS.Orange} />
         </View>
@@ -69,9 +75,21 @@ const MovieDetailsScreen = ({navigation, route}: any) => {
     );
   }
   return (
-    <View style={styles.container}>
-      <Text>MovieDetailsScreen</Text>
-    </View>
+    <ScrollView
+      style={styles.container}
+      bounces={false}
+      showsVerticalScrollIndicator={false}>
+      <View style={styles.appHeaderContainer}>
+        <AppHeader
+          name="close"
+          header={' '}
+          action={() => navigation.goBack()}
+        />
+      </View>
+      <View style={styles.loadinContainer}>
+        <ActivityIndicator size={'large'} color={COLORS.Orange} />
+      </View>
+    </ScrollView>
   );
 };
 
@@ -86,7 +104,13 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
   },
-  scrollViewContainer: {},
+  scrollViewContainer: {
+    flex: 1,
+  },
+  appHeaderContainer: {
+    marginHorizontal: SPACING.space_36,
+    marginTop: SPACING.space_20 * 2,
+  },
 });
 
 export default MovieDetailsScreen;

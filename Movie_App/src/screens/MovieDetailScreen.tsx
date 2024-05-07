@@ -8,6 +8,8 @@ import {
   StatusBar,
   ImageBackground,
   Image,
+  FlatList,
+  TouchableOpacity,
 } from 'react-native';
 import {movieDetails, movieCastDetails, baseImagePath} from '../api/apicalls';
 import {
@@ -21,6 +23,8 @@ import AppHeader from '../components/AppHeader';
 import LinearGradient from 'react-native-linear-gradient';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import CustomIcon from '../components/CustomIcon';
+import CategoryHeader from '../components/CategoryHeader';
+import CastCard from '../components/CastCard';
 
 const getMovieDetails = async (movieid: number) => {
   try {
@@ -57,7 +61,7 @@ const MovieDetailsScreen = ({navigation, route}: any) => {
 
     (async () => {
       const tempMovieCastData = await getMovieCastDetails(route.params.movieid);
-      setMovieCastData(tempMovieCastData);
+      setMovieCastData(tempMovieCastData.cast);
     })();
   }, []);
 
@@ -135,6 +139,54 @@ const MovieDetailsScreen = ({navigation, route}: any) => {
           })}
         </View>
         <Text style={styles.tagline}>{movieData?.tagline}</Text>
+      </View>
+
+      <View style={styles.infoContainer}>
+        <View style={styles.rateContainer}>
+          <CustomIcon name="star" style={styles.starIcon} />
+          <Text style={styles.runtimeText}>({movieData?.vote_count})</Text>
+          <Text style={styles.runtimeText}>
+            {movieData?.release_date.substring(8, 10)}{' '}
+            {new Date(movieData?.release_date).toLocaleString('default', {
+              month: 'long',
+            })}{' '}
+            {movieData?.release_date.substring(0, 4)}
+          </Text>
+        </View>
+        <Text style={styles.descriptionText}>{movieData?.overview}</Text>
+      </View>
+
+      <View>
+        <CategoryHeader title="Top Cast" />
+        <FlatList
+          data={movieCastData}
+          keyExtractor={(item: any) => item.id}
+          horizontal
+          contentContainerStyle={styles.containerGap24}
+          renderItem={({item, index}) => (
+            <CastCard
+              shouldMarginatedAtEnd={true}
+              cardWidth={80}
+              isFirst={index == 0 ? true : false}
+              isLast={index == movieCastData?.length - 1 ? true : false}
+              imagePath={baseImagePath('w185', item.profile_path)}
+              title={item.original_name}
+              subtitle={item.character}
+            />
+          )}
+        />
+        <View>
+          <TouchableOpacity
+            style={styles.buttonBG}
+            onPress={() => {
+              navigation.push('SeatBooking', {
+                bgImage: baseImagePath('w780', movieData.backdrop_path),
+                posterImage: baseImagePath('original', movieData.poster_path),
+              });
+            }}>
+            <Text style={styles.buttonText}>Select Seats</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </ScrollView>
   );
@@ -224,6 +276,39 @@ const styles = StyleSheet.create({
     marginHorizontal: SPACING.space_36,
     marginVertical: SPACING.space_15,
     textAlign: 'center',
+  },
+  infoContainer: {
+    marginHorizontal: SPACING.space_24,
+  },
+  rateContainer: {
+    flexDirection: 'row',
+    gap: SPACING.space_10,
+    alignItems: 'center',
+  },
+  starIcon: {
+    fontSize: FONTSIZE.size_20,
+    color: COLORS.Yellow,
+  },
+  descriptionText: {
+    fontFamily: FONTFAMILY.poppins_light,
+    fontSize: FONTSIZE.size_14,
+    color: COLORS.White,
+  },
+  containerGap24: {
+    gap: SPACING.space_24,
+  },
+  buttonBG: {
+    alignItems: 'center',
+    marginVertical: SPACING.space_24,
+  },
+  buttonText: {
+    borderRadius: BORDERRADIUS.radius_25 * 2,
+    paddingHorizontal: SPACING.space_24,
+    paddingVertical: SPACING.space_10,
+    backgroundColor: COLORS.Orange,
+    fontFamily: FONTFAMILY.poppins_medium,
+    fontSize: FONTSIZE.size_14,
+    color: COLORS.White,
   },
 });
 

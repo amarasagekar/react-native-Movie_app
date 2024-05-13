@@ -1,6 +1,14 @@
 import React, {useState} from 'react';
-import {Text, View, StyleSheet, ScrollView, StatusBar} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  ScrollView,
+  StatusBar,
+  ImageBackground,
+} from 'react-native';
 import {COLORS} from '../theme/theme';
+import LinearGradient from 'react-native-linear-gradient';
 
 const timeArray: string[] = [
   '10:30',
@@ -11,7 +19,7 @@ const timeArray: string[] = [
   '21:00',
 ];
 
-const generateDate = (): string[] => {
+const generateDate = () => {
   const date = new Date();
   let weekday = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   let weekdays = [];
@@ -60,7 +68,7 @@ const generateSeats = () => {
 };
 
 const SeatBookingScreen = ({navigation, route}: any) => {
-  const [dateArray, setDateArray] = useState<string[]>(generateDate());
+  const [dateArray, setDateArray] = useState<any[]>(generateDate());
   const [selectedDateIndex, setSelectedDateIndex] = useState<any>();
   const [price, setPrice] = useState<number>(0);
   const [twoDSeatArray, setTwoDSetArray] = useState<any[][]>(generateSeats());
@@ -72,6 +80,15 @@ const SeatBookingScreen = ({navigation, route}: any) => {
       style={styles.container}
       bounces={false}
       showsVerticalScrollIndicator={false}>
+      <View>
+        <ImageBackground
+          source={{uri: route.params?.BgImage}}
+          style={styles.ImageBG}>
+          <LinearGradient
+            colors={[COLORS.BlackRGB10, COLORS.Black]}
+            style={styles.linearGradient}></LinearGradient>
+        </ImageBackground>
+      </View>
       <StatusBar hidden />
     </ScrollView>
   );
@@ -83,6 +100,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.Black,
   },
+  ImageBG: {
+    width: '100%',
+    aspectRatio: 3072 / 1727,
+  },
+  linearGradient: {
+    height: '100%',
+  },
 });
 
 export default SeatBookingScreen;
+

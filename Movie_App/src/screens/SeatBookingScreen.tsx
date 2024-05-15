@@ -7,8 +7,9 @@ import {
   StatusBar,
   ImageBackground,
 } from 'react-native';
-import {COLORS} from '../theme/theme';
+import {COLORS, SPACING} from '../theme/theme';
 import LinearGradient from 'react-native-linear-gradient';
+import AppHeader from '../components/AppHeader';
 
 const timeArray: string[] = [
   '10:30',
@@ -86,7 +87,15 @@ const SeatBookingScreen = ({navigation, route}: any) => {
           style={styles.ImageBG}>
           <LinearGradient
             colors={[COLORS.BlackRGB10, COLORS.Black]}
-            style={styles.linearGradient}></LinearGradient>
+            style={styles.linearGradient}>
+            <View style={styles.appHeaderContainer}>
+              <AppHeader
+                name="close"
+                header={' '}
+                action={() => navigation.goBack()}
+              />
+            </View>
+          </LinearGradient>
         </ImageBackground>
       </View>
       <StatusBar hidden />
@@ -107,7 +116,10 @@ const styles = StyleSheet.create({
   linearGradient: {
     height: '100%',
   },
+  appHeaderContainer: {
+    marginHorizontal: SPACING.space_36,
+    marginTop: SPACING.space_20 * 2,
+  },
 });
 
 export default SeatBookingScreen;
-

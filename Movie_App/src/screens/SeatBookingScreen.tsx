@@ -6,10 +6,12 @@ import {
   ScrollView,
   StatusBar,
   ImageBackground,
+  TouchableOpacity,
 } from 'react-native';
-import {COLORS, SPACING} from '../theme/theme';
+import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../theme/theme';
 import LinearGradient from 'react-native-linear-gradient';
 import AppHeader from '../components/AppHeader';
+import CustomIcon from '../components/CustomIcon';
 
 const timeArray: string[] = [
   '10:30',
@@ -81,6 +83,7 @@ const SeatBookingScreen = ({navigation, route}: any) => {
       style={styles.container}
       bounces={false}
       showsVerticalScrollIndicator={false}>
+      <StatusBar hidden />
       <View>
         <ImageBackground
           source={{uri: route.params?.BgImage}}
@@ -97,8 +100,25 @@ const SeatBookingScreen = ({navigation, route}: any) => {
             </View>
           </LinearGradient>
         </ImageBackground>
+        <Text style={styles.screenText}>Screen this side</Text>
       </View>
-      <StatusBar hidden />
+      <View style={styles.seatContainer}>
+        <View style={styles.containerGap20}>{
+          twoDSeatArray?.map((item, index) => {
+            return (
+              <View key={index} style={styles.seatRow}>
+{item?.map((subitem, index) => {
+  return(
+    <TouchableOpacity key={subitem.number}>
+      <CustomIcon name='seat' style={[styles.seatIcon]}/>
+    </TouchableOpacity>
+  )
+})}
+              </View>
+            )
+          })
+        }</View>
+      </View>
     </ScrollView>
   );
 };
@@ -120,6 +140,19 @@ const styles = StyleSheet.create({
     marginHorizontal: SPACING.space_36,
     marginTop: SPACING.space_20 * 2,
   },
+  screenText: {
+    textAlign: 'center',
+    fontFamily: FONTFAMILY.poppins_regular,
+    fontSize: FONTSIZE.size_10,
+    color: COLORS.WhiteRGBA15,
+  },
+  seatContainer: {
+    marginVertical: SPACING.space_20,
+  },
+  containerGap20: {},
+  seatRow:{},
+  seatIcon:{},
 });
 
 export default SeatBookingScreen;
+
